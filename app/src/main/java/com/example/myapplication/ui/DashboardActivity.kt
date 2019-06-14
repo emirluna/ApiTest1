@@ -1,10 +1,14 @@
 package com.example.myapplication.ui
 
+import android.media.session.MediaSession
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v7.app.AppCompatActivity
 import android.widget.TextView
+import android.widget.Toast
 import com.example.myapplication.R
+import com.example.myapplication.common.Constantes
+import com.example.myapplication.common.SharedPreferencesManager
 
 class DashboardActivity : AppCompatActivity() {
 
@@ -31,6 +35,11 @@ class DashboardActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
+        var Name = SharedPreferencesManager.getSomeStringValue(Constantes.PREF_NAME)
+        var Token = SharedPreferencesManager.getSomeStringValue(Constantes.PREF_TOKEN)
+
+        Toast.makeText(this, "Hi ."+Name, Toast.LENGTH_LONG).show()
+        Toast.makeText(this, "Hi ."+Token, Toast.LENGTH_LONG).show()
 
         textMessage = findViewById(R.id.message)
         navView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)

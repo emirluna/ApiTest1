@@ -1,12 +1,15 @@
 package com.example.myapplication;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import com.example.myapplication.common.Constantes;
+import com.example.myapplication.common.SharedPreferencesManager;
 import com.example.myapplication.retrofit.MiniClient;
 import com.example.myapplication.retrofit.MiniService;
 import com.example.myapplication.retrofit.request.RequestLogin;
@@ -78,6 +81,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 public void onResponse(Call<ResponseAuth> call, Response<ResponseAuth> response) {
                     if(response.isSuccessful()) {
                         Toast.makeText(MainActivity.this, "Todo ok", Toast.LENGTH_SHORT).show();
+                        SharedPreferencesManager.setSomeStringValue(Constantes.PREF_TOKEN, response.body().getToken());
+                        SharedPreferencesManager.setSomeStringValue(Constantes.PREF_NAME, response.body().getUsername());
                         Intent i = new Intent(MainActivity.this, DashboardActivity.class);
                         startActivity(i);
 
@@ -94,21 +99,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             });
 
-            /*RequestLogin requestLogin = new RequestLogin(email, password);
-            Call<ResponseAuth> call = miniService.doLogin(requestLogin);
-            call.enqueue(new Callback<ResponseAuth>() {
-                @Override
-                public void onResponse(Call<ResponseAuth> call, Response<ResponseAuth> response) {
-                    if(response.isSuccessful()){
-                     Toast.makeText(MainActivity.this, "Todo Ok", Toast.LENGTH_SHORT).show();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<ResponseAuth> call, Throwable t) {
-                    Toast.makeText(MainActivity.this, "Probema", Toast.LENGTH_SHORT).show();
-                }
-            });*/
 
         }
     }
